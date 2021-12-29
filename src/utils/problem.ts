@@ -13,7 +13,7 @@ const problem = async (id: string) => {
     const input = $('#sampleinput').text().trim()
     const output = $('#sampleoutput').text().trim()
 
-    return { success: true, head, idesc, odesc, input, output }
+    return { success: true, head, idesc, odesc, input, output, url: `http://ot.jungbo.me/${url}` }
   } catch {
     return { success: false }
   }

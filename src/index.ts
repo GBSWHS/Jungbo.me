@@ -12,13 +12,13 @@ bot.on('message', async (input) => {
   if (!input.content.startsWith('-')) return
   const msg = input.content.slice(1)
 
-  if (msg.startsWith('GET')) {
+  if (msg.startsWith('GET') || msg.startsWith('get')) {
     const id = msg.split(' ')[1] as string
     if (!id) {
       input.reply('아이디를 입력해주세요.')
       return
     }
-    const info = await problem(id)
+    const info = await problem(id.toUpperCase())
 
     if (!info.success) {
       input.channel.send('문제를 찾을 수 없습니다!')
@@ -28,11 +28,14 @@ bot.on('message', async (input) => {
     const embed2 = new MessageEmbed({ color: 'RED' })
     input.channel.send({
       embeds: [
-        embed.setTitle(id + ' 문제를 불러온 결과입니다.')
+        embed.setTitle(id.toUpperCase() + ' 문제를 불러온 결과입니다.')
           .addField('문제 설명', '```' + info.head + '```')
           .addField('입력 설명', '```' + info.idesc + '```')
           .addField('출력 설명', '```' + info.odesc + '```'),
-        embed2.setTitle('입출력').addField('입력', '```' + info.input + '```', true).addField('출력', '```' + info.output + '```', true)
+        embed2.setTitle('입출력')
+          .addField('입력', '```' + info.input + '```', true)
+          .addField('출력', '```' + info.output + '```', true)
+          .addField('문제 조지기', `[${info.url}](${info.url})`, false)
       ]
     })
   }
